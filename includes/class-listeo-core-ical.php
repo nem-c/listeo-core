@@ -749,7 +749,11 @@ END:VEVENT
                             $slot_start_time = wp_date( 'His', strtotime( $slot_data['time_start'] ), $event_date['zulu_timezone'] );
                             $slot_end_time   = wp_date( 'His', strtotime( $slot_data['time_end'] ), $event_date['zulu_timezone'] );
 
-                            if ( $slot_start_time < $event_end_time ) {
+	                        /**
+	                         * Make sure that slot times occipied are correct when event start before first slot start
+                             * and when it ends after last slot end time.
+	                         */
+	                        if ( $slot_start_time <= $event_end_time && $slot_end_time >= $event_start_time ) {
                                 if ( $slot_start_time <= $event_start_time && $slot_end_time >= $event_end_time ) {
                                     /**
                                      * Matches events that are fitting in one slot
